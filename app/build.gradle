@@ -48,6 +48,7 @@ dependencies {
     implementation 'androidx.core:corektx:1.1.0-alpha04'
     implementation 'androidx.room:roomruntime:2.1.0-alpha04'
     implementation 'androidx.room:room-compiler:2.1.0-alpha04'
+    implementation 'androidx.room:room-ktx:2.4.3'
     kapt 'androidx.room:room-compiler:2.5.0-rc01'
 
     testImplementation 'junit:junit:4.13.2'
