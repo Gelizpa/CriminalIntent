@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import java.util.*
 
 
-private const val DATABASE_NAME = "crimedatabase"
+private const val DATABASE_NAME = "crime-database"
 
 class CrimeRepository private constructor(context: android.content.Context) {
 
@@ -15,6 +15,7 @@ class CrimeRepository private constructor(context: android.content.Context) {
     private val database : CrimeDatabase = Room.databaseBuilder(context.applicationContext,
         CrimeDatabase::class.java, DATABASE_NAME).build()
     private val crimeDao = database.crimeDao()
+
     fun getCrimes(): LiveData<List<Crime>> = crimeDao.getCrimes()
     fun getCrime(id: UUID): LiveData<Crime?> = crimeDao.getCrime(id)
 
