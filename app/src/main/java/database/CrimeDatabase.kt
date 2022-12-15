@@ -8,4 +8,6 @@ import com.bignerdranch.android.criminalintent.Crime
 @TypeConverters(CrimeTypeConverters::class)
 
 abstract class CrimeDatabase : RoomDatabase() {
+    abstract fun crimeDao(): CrimeDao//Теперь при создании базы данных Room будет генерировать конкретную реализацию в DAO, и вы можете получить к ней доступ.
+
 }
