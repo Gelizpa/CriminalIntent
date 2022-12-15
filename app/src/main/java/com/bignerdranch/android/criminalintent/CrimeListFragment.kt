@@ -31,7 +31,7 @@ class CrimeListFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-        ): View? {
+        ): View? {ff
 
             val view =
                 inflater.inflate(R.layout.fragment_crime_list,
