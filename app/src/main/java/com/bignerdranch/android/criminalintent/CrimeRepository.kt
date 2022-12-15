@@ -3,6 +3,7 @@ package com.bignerdranch.android.criminalintent
 import androidx.room.Room
 import database.CrimeDatabase
 import android.content.Context
+import androidx.lifecycle.LiveData
 import java.util.*
 
 
@@ -14,8 +15,8 @@ class CrimeRepository private constructor(context: android.content.Context) {
     private val database : CrimeDatabase = Room.databaseBuilder(context.applicationContext,
         CrimeDatabase::class.java, DATABASE_NAME).build()
     private val crimeDao = database.crimeDao()
-    fun getCrimes(): List<Crime> = crimeDao.getCrimes()
-    fun getCrime(id: UUID): Crime? = crimeDao.getCrime(id)
+    fun getCrimes(): LiveData<List<Crime>> = crimeDao.getCrimes()
+    fun getCrime(id: UUID): LiveData<Crime?> = crimeDao.getCrime(id)
 
     companion object {
         private var INSTANCE: CrimeRepository? = null
