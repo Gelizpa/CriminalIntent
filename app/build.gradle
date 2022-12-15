@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+
 }
 
 android {
@@ -42,6 +45,11 @@ dependencies {
     implementation "com.android.support:support-v4:23.1.1"
     implementation "com.android.support:appcompat-v7:23.1.1"
     implementation "com.android.support:support-annotations:23.1.1"
+    implementation 'androidx.core:corektx:1.1.0-alpha04'
+    implementation 'androidx.room:roomruntime:2.1.0-alpha04'
+    implementation 'androidx.room:room-compiler:2.1.0-alpha04'
+    kapt 'androidx.room:room-compiler:2.5.0-rc01'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
