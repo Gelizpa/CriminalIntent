@@ -4,6 +4,8 @@ import androidx.room.Room
 import database.CrimeDatabase
 import android.content.Context
 import androidx.lifecycle.LiveData
+import database.migration_1_2
+import java.io.File
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -14,11 +16,11 @@ class CrimeRepository private constructor(context: android.content.Context) {
 
 
     private val database : CrimeDatabase = Room.databaseBuilder(context.applicationContext,
-        CrimeDatabase::class.java, DATABASE_NAME).build()
+        CrimeDatabase::class.java, DATABASE_NAME).addMigrations(migration_1_2).build()
     private val crimeDao = database.crimeDao()
     private val executor = Executors.newSingleThreadExecutor()//Функция newSingleThreadExecutor() возвращает экземпляр исполнителя, который указывает на новый поток.
     //Таким образом, любая работа, которую вы выполняете сисполнителем, будет происходить вне основного потока.
-
+    private val filesDir = context.applicationContext.filesDir
     fun getCrimes(): LiveData<List<Crime>> = crimeDao.getCrimes()
     fun getCrime(id: UUID): LiveData<Crime?> = crimeDao.getCrime(id)
     fun updateCrime(crime: Crime) {
@@ -32,6 +34,7 @@ class CrimeRepository private constructor(context: android.content.Context) {
             crimeDao.addCrime(crime)
         }
     }
+    fun getPhotoFile(crime: Crime): File = File(filesDir, crime.photoFileName)
 
     companion object {
         private var INSTANCE: CrimeRepository? = null
