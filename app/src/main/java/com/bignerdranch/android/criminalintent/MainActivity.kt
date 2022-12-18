@@ -1,6 +1,7 @@
 package com.bignerdranch.android.criminalintent
 
 
+import CrimeFragment
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -26,7 +27,12 @@ class MainActivity : AppCompatActivity(), CrimeListFragment.Callbacks {
     }
     override fun onCrimeSelected(crimeId: UUID)
     {
-        Log.d(TAG, "MainActivity.onCrimeSelected: $crimeId")
-    }
+        val fragment = CrimeFragment()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)//Теперь при нажатии пользователем кнопки «Назад»  транзакция будет обращена. Таким образом, CrimeFragment  будет заменен на CrimeListFragment.
+            .commit()
+    }//Функция FragmentTransaction.replace(Int,Fragment) заменяет фрагмент, размещенный в activity (в контейнере с указанным целочисленным идентификатором ресурса), на новый фрагмент. Если фрагмент еще не размещен в указанном контейнере, то добавляется новый фрагмент
 
 }
