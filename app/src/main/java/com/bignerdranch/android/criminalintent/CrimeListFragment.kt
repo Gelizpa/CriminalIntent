@@ -1,5 +1,6 @@
 package com.bignerdranch.android.criminalintent
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,9 +14,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 private const val TAG = "CrimeListFragment"
 class CrimeListFragment : Fragment() {
+    /**
+     * Требуемый интерфейс
+     */
+    interface Callbacks {
+        fun onCrimeSelected(crimeId: UUID)
+    }
+    private var callbacks: Callbacks? = null
     private lateinit var crimeRecyclerView: RecyclerView
     private var adapter: CrimeAdapter? =  CrimeAdapter(emptyList())
     private val crimeListViewModel:
@@ -23,10 +32,12 @@ class CrimeListFragment : Fragment() {
         ViewModelProviders.of(this).get(CrimeListViewModel::class.java)
 
     }
-
-
-
-        override fun onCreateView(
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callbacks = context as Callbacks?
+    }//Функция жизненного цикла Fragment.onAttach(Context) вызывается, когда фрагмент прикреплется к activity.Здесь вы помещаете аргумент Context,переданный функции onAttach(...), в свойство callback.
+//Помните, что Activity является подклассом Context, поэтому функция onAttach(...) передает в качестве параметра объект Context, который более гибок.
+    override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -54,6 +65,11 @@ class CrimeListFragment : Fragment() {
                 }
             })
     }
+    override fun onDetach() {
+        super.onDetach()
+        callbacks = null
+    }//Здесь переменную устанавливают равной нулю, так как в дальнейшем вы не сможете получить доступ к activity или рассчитывать на то, что она будет продолжать существовать.
+
 
     private fun updateUI(crimes: List<Crime>) {
         adapter = CrimeAdapter(crimes)
@@ -87,10 +103,9 @@ class CrimeListFragment : Fragment() {
 
             dateTextView.text =
                 this.crime.date.toString()}
-            override fun onClick(v: View) {
-                Toast.makeText(context, "${crime.title} pressed!", Toast.LENGTH_SHORT).show()
 
-
+        override fun onClick(v: View) {
+                callbacks?.onCrimeSelected(crime.id)//обновить слушателя кликов для отдельных  элементов в списке преступлений таким образом, чтобы  нажатие на преступление уведомляло хост-activity через  интерфейс Callbacks.
         }
     }
 
