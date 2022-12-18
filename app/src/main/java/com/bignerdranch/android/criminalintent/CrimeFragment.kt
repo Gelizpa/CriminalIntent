@@ -24,7 +24,7 @@ private const val ARG_CRIME_ID = "crime_id"
 private const val DIALOG_DATE = "DialogDate"
 private const val REQUEST_DATE = 0//константа для кода запроса
 
-class CrimeFragment : Fragment() {
+class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
     private lateinit var crime: Crime
     private lateinit var titleField: EditText
     private lateinit var dateButton: Button
@@ -111,6 +111,11 @@ class CrimeFragment : Fragment() {
         super.onStop()
         crimeDetailViewModel.saveCrime(crime)
     }//Функция Fragment.onStop() вызывается всякий раз, когда ваш фрагмент переходит в состояние остановки. Это означает, что данные будут сохранены, когда пользователь закроет экран подробностей (например, нажав кнопку «Назад»).
+
+    override fun onDateSelected(date: Date) {
+        crime.date = date
+        updateUI()
+    }// Реализация интерфейса обратных вызовов
 
 
     private fun updateUI() {
