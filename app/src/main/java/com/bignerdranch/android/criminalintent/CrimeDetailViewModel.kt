@@ -17,5 +17,8 @@ class CrimeDetailViewModel() : ViewModel() {
     fun loadCrime(crimeId: UUID) {
         crimeIdLiveData.value = crimeId
     }//Свойство value объекта LiveData, возвращаемое из функции отображения, используется для установки свойства value для результата преобразования.
+    fun saveCrime(crime: Crime) {
+        crimeRepository.updateCrime(crime)//CrimeRepository обрабатывает запрос на обновление в фоновом потоке, интеграция с базой данных реализуется просто.
+    }//Функция saveCrime(Crime) принимает объект Crime и записывает его в базу данных.
 
 }

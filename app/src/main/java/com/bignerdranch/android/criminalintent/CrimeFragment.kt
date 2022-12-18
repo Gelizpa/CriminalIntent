@@ -96,6 +96,12 @@ class CrimeFragment : Fragment() {
         }
 
     }
+    override fun onStop() {
+        super.onStop()
+        crimeDetailViewModel.saveCrime(crime)
+    }//Функция Fragment.onStop() вызывается всякий раз, когда ваш фрагмент переходит в состояние остановки. Это означает, что данные будут сохранены, когда пользователь закроет экран подробностей (например, нажав кнопку «Назад»).
+
+
     private fun updateUI() {
         titleField.setText(crime.title)
         dateButton.text = crime.date.toString()
