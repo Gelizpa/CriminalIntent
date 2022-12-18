@@ -12,7 +12,8 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.bignerdranch.android.criminalintent.Crime
 import com.bignerdranch.android.criminalintent.R
-
+import java.util.*
+private const val ARG_CRIME_ID = "crime_id"
 class CrimeFragment : Fragment() {
     private lateinit var crime: Crime
     private lateinit var titleField: EditText
@@ -70,4 +71,14 @@ class CrimeFragment : Fragment() {
         }
 
     }
+    companion object {
+        fun newInstance(crimeId: UUID): CrimeFragment {
+            val args = Bundle().apply {
+                putSerializable(ARG_CRIME_ID, crimeId)
+            }
+            return CrimeFragment().apply { arguments = args
+            }
+        }
+    }//получает UUID, создает пакет аргументов, создает экземпляр фрагмента, а затем присоединяет аргументы к фрагменту
+
 }

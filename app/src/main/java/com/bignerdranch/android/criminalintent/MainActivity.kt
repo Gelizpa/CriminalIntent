@@ -25,9 +25,8 @@ class MainActivity : AppCompatActivity(), CrimeListFragment.Callbacks {
                 .commit()
         }
     }
-    override fun onCrimeSelected(crimeId: UUID)
-    {
-        val fragment = CrimeFragment()
+    override fun onCrimeSelected(crimeId: UUID) {
+        val fragment = CrimeFragment.newInstance(crimeId)//класс MainActivity вызывает CrimeFragment.newInstance(UUID) каждый раз, когда ему потребуется создать CrimeFragment. При вызове передается значение UUID, полученное из MainActivity.onCrimeSelected(UUID).
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
