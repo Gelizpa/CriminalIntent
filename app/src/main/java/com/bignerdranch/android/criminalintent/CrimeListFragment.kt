@@ -3,9 +3,7 @@ package com.bignerdranch.android.criminalintent
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -37,6 +35,12 @@ class CrimeListFragment : Fragment() {
         callbacks = context as Callbacks?
     }//Функция жизненного цикла Fragment.onAttach(Context) вызывается, когда фрагмент прикреплется к activity.Здесь вы помещаете аргумент Context,переданный функции onAttach(...), в свойство callback.
 //Помните, что Activity является подклассом Context, поэтому функция onAttach(...) передает в качестве параметра объект Context, который более гибок.
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setHasOptionsMenu(true)
+    }//В функции CrimeListFragment.onCreate(Bundle?)сообщаем FragmentManager, что экземплярCrimeListFragment должен получать обратные вызовы меню.
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -70,6 +74,22 @@ class CrimeListFragment : Fragment() {
         callbacks = null
     }//Здесь переменную устанавливают равной нулю, так как в дальнейшем вы не сможете получить доступ к activity или рассчитывать на то, что она будет продолжать существовать.
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu,
+            inflater)
+        inflater.inflate(R.menu.fragment_crime_list, menu)
+    }//заполняет меню, определенное в файле fragment_crime_list.xml
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.new_crime -> {
+                val crime = Crime()
+                crimeListViewModel.addCrime(crime)
+                callbacks?.onCrimeSelected(crime.id)
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }//функция onOptionsItemSelected(MenuItem), реагирует на выбор команды меню. Реализация создает новый объект Crime,добавляет его в базу данных и затем уведомляет родительскую activity о том, что запрошено добавление нового преступления.
 
     private fun updateUI(crimes: List<Crime>) {
         adapter = CrimeAdapter(crimes)
